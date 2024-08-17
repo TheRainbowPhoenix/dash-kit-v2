@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+        <meta name="description" content="" />
+
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,line-clamp@0.4.4,container-queries@0.1.1"></script>
+
+
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<script>
+            let themeInUse = 'auto';
+            const dashboard = localStorage.getItem('dashboard');
+
+            if (dashboard) {
+                try {
+                    const localPrefs = JSON.parse(dashboard);
+                    if (localPrefs) themeInUse = localPrefs.theme;
+                } catch (_) { }
+            }
+
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            themeInUse = themeInUse === 'auto' ? (systemPrefersDark ? 'dark' : 'light') : themeInUse;
+
+            document.body.setAttribute('class', `theme-${themeInUse}`);
+        </script>
+
+		<div id="app">%sveltekit.body%</div>
+	</body>
+</html>
